@@ -1,6 +1,6 @@
 const data = require('./data.json');
 
-const task11Result = (animals) => {
+const task11Result = animals => {
     const result = animals.reduce((res, animal) => {
         res[`${animal.type}s`] ? res[`${animal.type}s`]++ : res[`${animal.type}s`] = 1;
         res.average ? res.average += animal.age : res.average = animal.age;
@@ -27,7 +27,7 @@ const task13Result = animals => animals.filter(({type, features}) =>
 
 console.log(task13Result(data));
 
-const task14Result = (animals) => {
+const task14Result = animals => {
     let result = animals.slice();
     result.sort((a, b) => {
         if (a.type !== b.type) {
@@ -64,7 +64,7 @@ const myPowFunc = (number, n) => {
 
 console.log(myPowFunc(3, 4));
 
-const myFlatFunc = (inputArray) => {
+const myFlatFunc = inputArray => {
     const result = [];
     const stack = [...inputArray];
     while (stack.length) {
