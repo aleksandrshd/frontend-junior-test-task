@@ -1,95 +1,71 @@
 const data = require('./data.json');
 
 const task11Result = (animals) => {
-    const result = {};
-    // your code here
-    let dogs = 0;
-    let cats = 0;
-    let average = 0;
-    let totalAge = 0;
-
-    animals.map(animal => {
-        if (animal.type === "dog") {
-            dogs++;
-        } else if (animal.type === "cat") {
-            cats++;
-        }
-        totalAge+= animal.age;
-    })
-
-    average = Math.round(totalAge / animals.length);
-
-    result["dogs"] = dogs;
-    result["cats"] = cats;
-    result["average"] = average;
-
+    const result = animals.reduce((res, animal) => {
+        res[`${animal.type}s`] ? res[`${animal.type}s`]++ : res[`${animal.type}s`] = 1;
+        res.average ? res.average += animal.age : res.average = animal.age;
+        return res;
+    }, {});
+    result.average = Math.round(result.average / animals.length);
     return result;
 };
 
 console.log(task11Result(data));
 
-const task12Result = (animals) => {
-    let result = 0;
-    // your code here
-    animals.map(animal => {
-        if ((animal.type === "dog") && (animal.breed === true) && (animal.features.includes("black"))) {
-            result++;
-        }
-    })
-    return result;
-};
+const task12Result = animals => animals.reduce((amount, {type, breed, features}) => {
+    if (type === "dog" && breed === true && features.includes("black")) {
+        amount += 1;
+    }
+    return amount;
+    }, 0);
 
 console.log(task12Result(data));
 
-const task13Result = (animals) => {
-    let result = [];
-    // your code here
-    result = (animals.filter(animal => (((animal.type === "cat") && (animal.features.includes("black"))) ||
-        ((animal.type === "dog") && (animal.features.includes("white"))))));
-    return result;
-};
+const task13Result = animals => animals.filter(({type, features}) =>
+        (type === "cat" && features.includes("black")) ||
+        (type === "dog" && features.includes("white")));
 
 console.log(task13Result(data));
 
 const task14Result = (animals) => {
-    let result = [];
-    // your code here
-    let cats = [];
-    let dogs = [];
-
-    cats = animals.filter(animal => animal.type === "cat");
-    dogs = animals.filter(animal => animal.type === "dog");
-
-    function compareByField(fieldName){
-        return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-    }
-
-    cats.sort(compareByField("age"));
-    dogs.sort(compareByField("age"));
-
-    result = result.concat(cats, dogs);
-
+    let result = animals.slice();
+    result.sort((a, b) => {
+        if (a.type !== b.type) {
+            if (a.type === "cat") {
+                return -1;
+            } else {
+                return 1;
+            }
+        } else if (a.type === "cat") {
+            return b.age - a.age;
+        } else {
+            return a.age - b.age;
+        }
+    });
     return result;
 };
 
 console.log(task14Result(data));
 
 const myPowFunc = (number, n) => {
-    let result = number;
-    // your code here
-
-    for (let i= 1; i < n; i++) {
+    if (Number.isInteger(n)) {
+    let result = 1;
+    for (let i= 0; i < Math.abs(n); i++) {
         result *= number;
     }
-
+    if (n < 0) {
+        result = 1 / result;
+    }
     return result;
+    } else {
+        return `Degree ${n} is not integer. Enter integer degree please!`;
+    }
 };
 
 console.log(myPowFunc(3, 4));
 
 const myFlatFunc = (inputArray) => {
     const result = [];
-    // your code here
     const stack = [...inputArray];
     while (stack.length) {
         const next = stack.pop();
