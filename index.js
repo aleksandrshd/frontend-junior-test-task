@@ -2,7 +2,8 @@ const data = require('./data.json');
 
 const task11Result = animals => {
     const result = animals.reduce((res, animal) => {
-        res[`${animal.type}s`] ? res[`${animal.type}s`]++ : res[`${animal.type}s`] = 1;
+        const key = animal.type + 's';
+        res[key] ? res[key]++ : res[key] = 1;
         res.average ? res.average += animal.age : res.average = animal.age;
         return res;
     }, {});
@@ -28,8 +29,7 @@ const task13Result = animals => animals.filter(({type, features}) =>
 console.log(task13Result(data));
 
 const task14Result = animals => {
-    let result = animals.slice();
-    result.sort((a, b) => {
+    return animals.slice().sort((a, b) => {
         if (a.type !== b.type) {
             if (a.type === "cat") {
                 return -1;
@@ -42,23 +42,22 @@ const task14Result = animals => {
             return a.age - b.age;
         }
     });
-    return result;
 };
 
 console.log(task14Result(data));
 
 const myPowFunc = (number, n) => {
-    if (Number.isInteger(n)) {
-    let result = 1;
-    for (let i= 0; i < Math.abs(n); i++) {
-        result *= number;
-    }
-    if (n < 0) {
-        result = 1 / result;
-    }
-    return result;
-    } else {
+    if (!Number.isInteger(n)) {
         return `Degree ${n} is not integer. Enter integer degree please!`;
+    } else {
+        let result = 1;
+        for (let i= 0; i < Math.abs(n); i++) {
+            result *= number;
+        }
+        if (n < 0) {
+            result = 1 / result;
+        }
+        return result;
     }
 };
 
