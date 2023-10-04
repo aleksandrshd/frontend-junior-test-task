@@ -4,10 +4,10 @@ const task11Result = animals => {
     const result = animals.reduce((res, animal) => {
         const key = animal.type + 's';
         res[key] ? res[key]++ : res[key] = 1;
-        res.average ? res.average += animal.age : res.average = animal.age;
+        res.avgage ? res.avgage += animal.age : res.avgage = animal.age;
         return res;
     }, {});
-    result.average = Math.round(result.average / animals.length);
+    result.avgage = Math.round(result.avgage / animals.length);
     return result;
 };
 
